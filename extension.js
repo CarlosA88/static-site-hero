@@ -25,7 +25,14 @@ function activate( context ) {
 		let linkTypeList = ['File', 'Image'];
 
 		vscode.window.showQuickPick( linkTypeList, { placeHolder: 'Link Type' } ).then( result => {
-			insertText( result )
+			// insertText( result )
+
+			if ( result === 'File' ) {
+				insertText( getImageTemplate() );
+			} else if ( result === 'Image' ) {
+				insertText( getFileTemplate() )
+			}
+
 		} )
 
 
@@ -57,7 +64,13 @@ let insertText = ( value ) => {
 		editBuilder.replace( range, value )
 	} )
 }
+let getImageTemplate = () => {
+	return vscode.workspace.getConfiguration( "staticSiteHero" )["imagePathTemplate"];
+};
 
+let getFileTemplate = () => {
+	return vscode.workspace.getConfiguration( "staticSiteHero" )["filePathTemplate"];
+};
 module.exports = {
 	activate,
 	deactivate
